@@ -1,0 +1,504 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botanical AI Lab</title>
+
+    <style>
+        :root {
+            --green: #245b45;
+            --dark-green: #173e30;
+            --cream: #f7f6ef;
+            --white: #fffef9;
+            --line: #e1e5d8;
+            --muted: #747c70;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: var(--cream);
+            color: #26372c;
+            line-height: 1.6;
+        }
+
+        header {
+            padding: 20px 6%;
+            background: var(--white);
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 43px;
+            height: 43px;
+            border-radius: 50% 50% 50% 8px;
+            display: grid;
+            place-items: center;
+            background: var(--green);
+            color: white;
+            font-size: 23px;
+        }
+
+        .brand h2 {
+            font-family: Georgia, serif;
+            font-size: 21px;
+            font-weight: normal;
+            color: var(--dark-green);
+        }
+
+        .brand p {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .status {
+            color: var(--green);
+            background: #edf3e6;
+            border-radius: 20px;
+            padding: 7px 13px;
+            font-size: 12px;
+        }
+
+        main {
+            max-width: 1150px;
+            width: 90%;
+            margin: 32px auto;
+        }
+
+        .hero {
+            background: var(--dark-green);
+            color: white;
+            border-radius: 6px 55px 6px 6px;
+            padding: 42px;
+        }
+
+        .hero h1 {
+            font-family: Georgia, serif;
+            font-size: clamp(32px, 5vw, 51px);
+            font-weight: normal;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            color: #d9e8a8;
+        }
+
+        .hero p {
+            max-width: 570px;
+            margin-top: 12px;
+            color: #d8e3d8;
+            font-size: 14px;
+        }
+
+        .section-title {
+            margin: 30px 0 15px;
+            font-family: Georgia, serif;
+            font-size: 25px;
+            font-weight: normal;
+            color: var(--dark-green);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        .stat {
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 20px;
+        }
+
+        .stat p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .stat strong {
+            display: block;
+            margin: 8px 0 3px;
+            font-family: Georgia, serif;
+            font-size: 32px;
+            font-weight: normal;
+            color: var(--green);
+        }
+
+        .stat small {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .panel {
+            padding: 25px;
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+        }
+
+        .panel h3 {
+            font-family: Georgia, serif;
+            font-size: 23px;
+            font-weight: normal;
+            color: var(--dark-green);
+        }
+
+        .description {
+            margin: 5px 0 22px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dce2d5;
+            border-radius: 4px;
+            background: #fbfcf7;
+            color: #26372c;
+            font-size: 14px;
+        }
+
+        input:focus, select:focus {
+            outline: 2px solid #c9dabc;
+            border-color: var(--green);
+        }
+
+        .model-select {
+            margin-top: 18px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 13px;
+            border: none;
+            border-radius: 4px;
+            background: var(--green);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: var(--dark-green);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 18px;
+            border-left: 4px solid #57936a;
+            background: #edf5e9;
+            color: var(--dark-green);
+        }
+
+        .result p {
+            font-size: 11px;
+        }
+
+        .result strong {
+            display: block;
+            margin: 4px 0;
+            font-family: Georgia, serif;
+            font-size: 29px;
+            font-weight: normal;
+        }
+
+        .error {
+            margin-top: 15px;
+            padding: 12px;
+            background: #fff0e9;
+            color: #87391e;
+            font-size: 13px;
+        }
+
+        .model {
+            padding: 18px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .model:last-child {
+            border-bottom: none;
+        }
+
+        .model-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .model-top h4 {
+            font-size: 14px;
+            color: var(--dark-green);
+        }
+
+        .accuracy {
+            font-family: Georgia, serif;
+            font-size: 25px;
+            color: var(--green);
+        }
+
+        .track {
+            height: 7px;
+            margin-top: 10px;
+            background: #e9ecdf;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .fill {
+            height: 100%;
+            background: var(--green);
+            border-radius: 10px;
+        }
+
+        .model p {
+            margin-top: 10px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        footer {
+            margin-top: 35px;
+            padding: 18px 0;
+            border-top: 1px solid var(--line);
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        @media (max-width: 760px) {
+            main {
+                width: 94%;
+            }
+
+            .hero {
+                padding: 28px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .status {
+                display: none;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .panel {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <div class="brand">
+        <div class="logo">❋</div>
+        <div>
+            <h2>Botanical AI Lab</h2>
+            <p>AI Flower Classification</p>
+        </div>
+    </div>
+    <div class="status">● Model workspace</div>
+</header>
+
+<main>
+    <section class="hero">
+        <h1>Data Classification<br><span>Using AI</span></h1>
+        <p>
+            Explore the Iris flower dataset with machine learning.
+            Enter flower measurements to predict its species and compare
+            the performance of two classification algorithms.
+        </p>
+    </section>
+
+    <h2 class="section-title">Dataset Statistics</h2>
+
+    <section class="stats">
+        <div class="stat">
+            <p>Total Records</p>
+            <strong>{{ sample_count }}</strong>
+            <small>Iris flower samples</small>
+        </div>
+
+        <div class="stat">
+            <p>Training Data</p>
+            <strong>{{ train_count }}</strong>
+            <small>Used to train the models</small>
+        </div>
+
+        <div class="stat">
+            <p>Testing Data</p>
+            <strong>{{ test_count }}</strong>
+            <small>Used for evaluation</small>
+        </div>
+
+        <div class="stat">
+            <p>KNN Accuracy</p>
+            <strong>{{ models["K-Nearest Neighbors"] }}%</strong>
+            <small>Test set accuracy</small>
+        </div>
+    </section>
+
+    <section class="content">
+        <div>
+            <h2 class="section-title">Flower Prediction</h2>
+
+            <div class="panel">
+                <h3>Predict a Species</h3>
+                <p class="description">
+                    Enter the flower's four measurements in centimetres.
+                </p>
+
+                <form method="POST">
+                    <div class="form-grid">
+                        <div>
+                            <label for="sepal_length">Sepal Length</label>
+                            <input id="sepal_length" name="sepal_length"
+                                   type="number" step="any" min="0.01" max="10"
+                                   value="{{ measurements[0] }}" required>
+                        </div>
+
+                        <div>
+                            <label for="sepal_width">Sepal Width</label>
+                            <input id="sepal_width" name="sepal_width"
+                                   type="number" step="any" min="0.01" max="10"
+                                   value="{{ measurements[1] }}" required>
+                        </div>
+
+                        <div>
+                            <label for="petal_length">Petal Length</label>
+                            <input id="petal_length" name="petal_length"
+                                   type="number" step="any" min="0.01" max="10"
+                                   value="{{ measurements[2] }}" required>
+                        </div>
+
+                        <div>
+                            <label for="petal_width">Petal Width</label>
+                            <input id="petal_width" name="petal_width"
+                                   type="number" step="any" min="0.01" max="10"
+                                   value="{{ measurements[3] }}" required>
+                        </div>
+                    </div>
+
+                    <div class="model-select">
+                        <label for="model">Classification Algorithm</label>
+                        <select name="model" id="model">
+                            {% for name in models %}
+                            <option value="{{ name }}"
+                                {% if selected_model == name %}selected{% endif %}>
+                                {{ name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <button type="submit">Predict Flower Species →</button>
+                </form>
+
+                {% if prediction %}
+                <div class="result" role="status">
+                    Prediction Result
+                    <strong>{{ prediction }}</strong>
+                    <p>Predicted from the measurements you entered.</p>
+                </div>
+                {% endif %}
+
+                {% if error %}
+                <div class="error" role="alert">{{ error }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div>
+            <h2 class="section-title">Model Comparison</h2>
+
+            <div class="panel">
+                <p class="description">
+                    Compare both classifiers using test-set accuracy.
+                </p>
+
+                {% for name, accuracy in models.items() %}
+                <div class="model">
+                    <div class="model-top">
+                        <h4>{{ name }}</h4>
+                        <span class="accuracy">{{ accuracy }}%</span>
+                    </div>
+
+                    <div class="track">
+                        <div class="fill" style="width: {{ accuracy }}%"></div>
+                    </div>
+
+                    <p>
+                        {% if name == "K-Nearest Neighbors" %}
+                        Classifies a flower based on its nearest training
+                        examples, with feature scaling.
+                        {% else %}
+                        Uses learned decision rules to predict the flower species.
+                        {% endif %}
+                    </p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <span>Botanical AI Lab</span>
+        <span>DecodeLabs AI Internship · Project 2</span>
+    </footer>
+</main>
+</body>
+</html>

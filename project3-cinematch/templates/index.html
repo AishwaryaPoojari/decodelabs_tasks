@@ -1,0 +1,121 @@
+html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineMatch | Movie Recommendations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="navbar">
+    <a class="brand" href="/">Cine<span>Match</span></a>
+    <span class="nav-label">YOUR PERSONAL MOVIE GUIDE</span>
+</header>
+
+<main>
+    <section class="hero">
+        <p class="eyebrow">DISCOVER YOUR NEXT FAVOURITE</p>
+        <h1>Movies that match<br>your <span>mood.</span></h1>
+        <p class="hero-text">
+            Tell us what you love. Our recommendation engine will
+            find movies that match your interests.
+        </p>
+        <div class="dataset-info">
+            <span class="status-dot"></span>
+            {{ movie_count }} movies in the collection
+        </div>
+    </section>
+
+    <section class="preference-panel">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">STEP 01</p>
+                <h2>What do you enjoy watching?</h2>
+            </div>
+            <span class="selection-count" id="selectionCount">0 selected</span>
+        </div>
+
+        <form method="POST" action="/">
+            <div class="genre-grid">
+                {% for genre in genres %}
+                <label class="genre-option">
+                    <input
+                        type="checkbox"
+                        name="genres"
+                        value="{{ genre }}"
+                        {% if genre in selected_genres %}checked{% endif %}
+                    >
+                    <span>{{ genre }}</span>
+                </label>
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="recommend-button">
+                Find my movies <span>→</span>
+            </button>
+        </form>
+    </section>
+
+    {% if recommendations %}
+    <section class="results-section">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">STEP 02</p>
+                <h2>Picked for your taste.</h2>
+                <p class="results-subtitle">
+                    Ranked by similarity to your selected preferences.
+                </p>
+            </div>
+        </div>
+
+        <div class="movie-grid">
+            {% for movie in recommendations %}
+            <article class="movie-card">
+                <div class="movie-art">
+                    <span class="film-icon">▶</span>
+                    <span class="match-badge">
+                        {{ movie.similarity }}% match
+                    </span>
+                </div>
+
+                <div class="movie-content">
+                    <div class="movie-meta">
+                        <span>★ {{ "%.1f"|format(movie.rating) }}</span>
+                        <span class="movie-genres">{{ movie.genres }}</span>
+                    </div>
+
+                    <h3>{{ movie.title }}</h3>
+                    <p class="movie-description">
+                        {{ movie.description }}
+                    </p>
+
+                    <div class="match-track">
+                        <div
+                            class="match-fill"
+                            style="width: {{ movie.similarity }}%"
+                        ></div>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    {% elif request.method == "POST" %}
+    <section class="empty-state">
+        <h2>No matching movies found</h2>
+        <p>Try selecting different genres to explore more movies.</p>
+    </section>
+    {% endif %}
+</main>
+
+<footer>
+    <a class="brand" href="/">Cine<span>Match</span></a>
+    <p>Built with Python, Flask and Machine Learning</p>
+</footer>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
